@@ -1,0 +1,14 @@
+
+
+{% if messages %}
+<div id="messages" class="messages text-warning text-center" style="color:yellow;">
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show text-center "{% endif %} role="alert">
+        {% if message.level == DEFAdivT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentNode.remove()"><span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}

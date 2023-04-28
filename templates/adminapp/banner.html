@@ -1,0 +1,99 @@
+
+{% extends 'adminapp/adminbase.html' %}
+
+{% load static%}
+
+{% block title%}
+Add Banner
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link   "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="{% url 'sales_report' %}" class="nav-item nav-link  "><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link "><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <a href="{% url 'banner'%}" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Banners</a>
+  <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+        <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+        <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+        
+    </div>
+</div>
+</div>
+
+
+{%endblock%}
+
+
+{% block content%}
+
+
+<div class="row d-flex justify-content-end mx-5">
+    <a href="{% url 'add_banner' %}" class="btn btn-primary  mt-4 mb-3"><b>AddBanner </b> </a>
+    </div>
+    {% for img in bannr %}
+    
+    
+    <div class="container">
+    <div class="row justify-content-center" >
+        <div class="d-flex flex-row" style = "margin-bottom:15px; ">
+            <td class=" position-absolute">
+              <button type="button" class="btn btn-outline-primary me-3"  data-toggle="modal" data-target="#modal{{img.id}}">Delete</button>
+              {% if img.is_selected == False %}
+              <a href="{% url 'select_banner' img.id %}"><button class="btn btn-outline-success"style=""><b>Enable</b></button></a>
+               {% else %}
+              <a href="{% url 'deselect_banner' img.id %}"><button class="btn btn-outline-danger "style=""><b>Disable </b></button> <i class="fa fa-check" aria-hidden="true"></i>
+              </a>
+              
+              {% endif %}
+              
+            </td>
+
+            <div class="modal fade" id="modal{{img.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Banner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    
+                    Do you really want to Delete Banner ?
+      
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <a href="{% url 'remove_banner' img.id %}"><button type="button" class="btn btn-primary">Yes</button></a>
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+            
+    
+        </div>
+    <img src="{{ img.banner_image.url }}" style="margin-bottom:15px;"  >
+        
+   <hr>
+
+    {% endfor  %}
+    
+
+
+
+
+    
+    
+    
+
+    
+    
+    {% endblock %}

@@ -1,0 +1,68 @@
+
+{% extends 'adminapp/adminbase.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% load static%}
+
+{% block title%}
+Add Banner
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link   "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="{% url 'sales_report' %}" class="nav-item nav-link  "><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link "><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <a href="{% url 'banner'%}" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Banners</a>
+  <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+        <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+        <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+        
+    </div>
+</div>
+</div>
+
+
+{%endblock%}
+
+
+{% block content%}
+
+<div class="d-flex flex-column">
+  <a href="{% url 'banner' %}" style="margin-left:10px;"> <button type="button" class="btn btn-outline-primary  " style="margin:auto;" >Back</button></a>
+   
+<form action="{% url 'add_banner' %}" method="POST" class="col-lg-6 uniForm" style="padding:2rem;margin:auto; " enctype="multipart/form-data">
+  {% csrf_token %}
+  <label class="col-sm-2 col-form-label" for="basic-default-company" >Image</label>
+  
+  <div class="col-sm-10">
+    <input type="file" class="form-control" id="basic-default-company" name="image" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp" id="imageInp3"  />
+      
+ </div>
+ 
+  <button class='btn_1 btn btn-outline-success ' style=" margin-top:2rem;margin-left:13rem" type="submit" >Add</button>
+</form>
+</div>
+ <!--........................... #crop guide................................ -->
+ <script defer src="https://cdn.crop.guide/loader/l.js?c=JPHQRG"></script>
+ 
+ 
+ <script>
+     function checker(id){
+       img = document.getElementById(id.id).value
+       if(!img.match(/\.(jpg|jpeg|png|gif)$/)){
+         swal("image should be jpg , jpeg , png")
+         document.getElementById(id.id).value = "";
+       }
+ 
+   }
+   </script>
+ 
+ 
+ {% endblock %}

@@ -1,0 +1,304 @@
+{% extends 'userapp/base.html' %}
+{% load static%}
+
+{% block title%}
+Home
+{%endblock%}
+
+{% block content%}
+
+<section class="section-slide">
+    <div class="wrap-slick1">
+        
+        <div class="slick1" style="">
+
+            {% for bnr in banner %}
+            {% if bnr.is_selected == True %}
+            
+            <div class="item-slick1" style="background-image:url({{ bnr.banner_image.url }})">
+                <img src="{{bnr.banner_image.url}}" alt="">
+            {% else %}
+            
+                <div class="item-slick1" style="background-image:url({% static 'images/barca kit 3.jpeg' %})">
+                
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+
+    <!-- Features Section Begin -->
+    <section class="features-section spad">
+        <div class="features-ads">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="single-features-ads first">
+                            <img src="{% static 'img/icons/f-delivery.png' %}" alt="">
+                            <h4>Free shipping</h4>
+                            <p>Get free shipping with ease, within 20km's breeze! </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="single-features-ads second">
+                            <img src="{% static 'img/icons/coin.png' %}" alt="">
+                            <h4>100% Money back </h4>
+                            <p>Shop with confidence, our 100% money back guarantee has got your back! </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="single-features-ads">
+                            <img src="{% static 'img/icons/chat.png' %}" alt="">
+                            <h4>Online support 24/7</h4>
+                            <p>Help is just a click away - 24/7 online support at your service! </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Features Box -->
+        <div class="features-box">
+            
+            {% comment %} <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            {% for product in featured_products  %}
+                            <div class="col-lg-8">
+                                <div class="single-box-item first-box">
+                                    <img src="{{product.image_1.url}}" alt="">
+                                    <div class="box-text">
+                                        <span class="trend-year">2023 Party</span>
+                                        <h2>Believe</h2>
+                                        <a href="{{product.get_url}}" class="primary-btn">See More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        {% for product in latest_products_1 %}
+                        <div class="single-box-item large-box">
+                            <img src="{{product.image_1.url}}" alt="">
+                            <div class="box-text">
+                                <span class="trend-year">2023 Party</span>
+                                <h2>Mystery</h2>
+                                <a href="{{product.get_url}}" class="primary-btn">See More</a>
+
+                                <div class="trend-alert">Milkyway</div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </section>
+    <!-- Features Section End -->
+
+
+  <!-- Featured Section Begin -->
+  <section class="latest-products spad">
+    <div class="container">
+        <div class="product-filter">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>Today's Sale</h2>
+                    </div>
+                        <div class="row">
+                           
+    
+                            {% for product in off_products %}
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="single-product-item">
+
+
+                                        <a href="{{product.get_url}}">
+                                            <figure>
+                                                <img src="{{product.image_1.url}}" alt="">
+                                                <div class="p-status" style="background:#C62929;">{{product.product_offer}}% OFF</div>
+                                            </figure></a> 
+                                            <div class="product-text">
+                                               
+                                                    <h6 style="">{{product.product_name}}</h6>
+                                                    <p><del class="text-secondary">₹{{product.price}}</del> ₹{{product.offer_price}}</p>
+                                               
+                                               
+                                               
+                                              
+                                                
+                                                
+                                            </div>
+                                       
+                                    </div>
+                                </div>
+    
+                            {% endfor %}
+    
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!--  End -->
+
+
+        <!-- Latest Product Begin -->
+        <section class="latest-products spad">
+            <div class="container">
+                <div class="product-filter">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="section-title">
+                                <h2>Latest Products</h2>
+                            </div>
+                            <ul class="product-controls">
+                                <li><a class="text-dark f-5" href="{% url 'shop' %}">
+                                    All Products
+                                </a></li>
+                                {% for category in cat_links %}
+                                {% comment %} <li><a href="#{{category.slug}}" >{{category.category_name}} {% endcomment %}
+                                </a></li>
+                                {% for i in category.sub_category_set.all %}
+                                <li> <a href="{{i.get_url}}">{{i.sub_category_name}}</a></li>
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" >
+                    {% for product in latest_products_1 %}
+                    <div class="col-lg-3 col-md-6 ">
+                       
+                        <div class="single-product-item">
+                            <figure>
+                                <a href="{{product.get_url}}"><img src="{{product.image_1.url}}" alt=""></a>
+                                <div class="p-status">new</div>
+                            </figure>
+                            <div class="product-text">
+                                <h6>{{product.product_name}}</h6>
+                                {% if product.offer_price != product.price %}
+                                <p><del class="text-secondary">₹{{product.price}}</del> ₹{{product.offer_price}}</p>
+                                {% else %}
+                                <p>₹{{product.price}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                    {% for product in latest_products_2 %}
+                    <div class="col-lg-3 col-md-6 ">
+                        
+                        <div class="single-product-item">
+                            <figure>
+                                <a href="{{product.get_url}}"><img src="{{product.image_1.url}}" alt=""></a>
+                                <div class="p-status">new</div>
+                            </figure>
+                            <div class="product-text">
+                                <h6>{{product.product_name}}</h6>
+                                {% if product.offer_price != product.price %}
+                                <p><del class="text-secondary">₹{{product.price}}</del> ₹{{product.offer_price}}</p>
+                                {% else %}
+                                <p>₹{{product.price}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                    {% for product in latest_products_3 %}
+                    <div class="col-lg-3 col-md-6 ">
+                       
+                        <div class="single-product-item">
+                            <figure>
+                                <a href="{{product.get_url}}"><img src="{{product.image_1.url}}" alt=""></a>
+                                <div class="p-status">new</div>
+                            </figure>
+                            <div class="product-text">
+                                <h6>{{product.product_name}}</h6>
+                                {% if product.offer_price != product.price %}
+                                <p><del class="text-secondary">₹{{product.price}}</del> ₹{{product.offer_price}}</p>
+                                {% else %}
+                                <p>₹{{product.price}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                    {% for product in latest_products_4 %}
+                    <div class="col-lg-3 col-md-6 ">
+                        
+                        <div class="single-product-item">
+                            <figure>
+                                <a href="{{product.get_url}}"><img src="{{product.image_1.url}}" alt=""></a>
+                                <div class="p-status">new</div>
+                            </figure>
+                            <div class="product-text">
+                                <h6>{{product.product_name}}</h6>
+                                {% if product.offer_price != product.price %}
+                                <p><del class="text-secondary">₹{{product.price}}</del> ₹{{product.offer_price}}</p>
+                                {% else %}
+                                <p>₹{{product.price}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- Latest Product End -->
+    
+    <!-- Lookbok Section Begin -->
+    <section class="lookbok-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 offset-lg-1">
+                    <div class="lookbok-left">
+                        <div class="section-title">
+                            <h2>2023 <br />#muggles</h2>
+                        </div>
+                        <p>Introducing our latest addition to our collection of iPhone aesthetic cases, the "Elegant Floral" case. This stunning case is the perfect way to add a touch of beauty and sophistication to your iPhone while keeping it protected from scratches and drops.
+                            The case features a gorgeous floral design that is both elegant and eye-catching. The delicate flowers are arranged in a way that creates a sense of movement and depth, making it a true work of art. The soft pastel colors used in the design give it a feminine and romantic feel, making it the perfect accessory for anyone who loves all things pretty.
+                            </p>
+                        <a href="{% url 'shop'  %}" class="primary-btn look-btn">See More</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="lookbok-pic">
+                        <img src="{% static 'img/products/main.webp' %}" alt="">
+                        <div class="pic-text">muggle</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Lookbok Section End -->
+
+    <!-- Logo Section Begin -->
+    <div class="logo-section spad">
+        
+    </div>
+    <!-- Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+{%endblock%}

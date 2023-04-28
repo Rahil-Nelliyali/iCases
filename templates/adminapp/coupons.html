@@ -1,0 +1,114 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Add Products
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link   "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="{% url 'sales_report' %}" class="nav-item nav-link  "><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link "><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link  "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <a href="{% url 'banner'%}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Banners</a>
+  <div class="nav-item dropdown ">
+    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+      <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+      <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+    </div>
+</div>
+</div>
+
+{%endblock%}
+
+{% block content%}
+
+<div class="text-center mx-auto mt-2 w-50">{% include 'includes/alerts.html' %}</div>
+
+<div class="container mt-3" style="min-height: 33rem;">
+    <h2 class="text-center text-white">Coupons</h2>
+    <div class="d-flex justify-content-between">
+      <input class="form-control w-50 mx-auto mb-3" type="search" placeholder="Search" aria-label="Search" id="myInput">
+      {% for message in messages %}
+                     <h4 style="color: yellow;font-size: 13px;
+                     margin: auto;
+                     margin-bottom: 20px;">{{message}}</h4>
+                     {% endfor %}
+      <div><a href="{% url 'add_coupon' %}"><button class="btn btn-outline-success btn-sm mt-1"><i class="fas fa-plus mr-2"></i> Add Coupon</button></a></div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Coupon Code</th>
+          <th>Discount</th>
+          <th>Min Price</th>
+          <th>Expiry Date</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        
+        {% for coupon in coupons %}
+  
+        <tr style="height: 50px !important;" class="text-wrap">
+          <th scope="row">{{coupon.code}}</th>
+          <td>{{coupon.discount}}%</td>
+          <td>₹{{coupon.min_value}}</td>
+          <td>{{coupon.valid_at}}</td>
+          <td>
+            <div class="pro-img-overlay"><a href="{% url 'edit_coupon' coupon.id  %}" ><i class="fas fa-edit text-warning"></i></a>
+            </div>
+          </td>
+          <td>
+            <div class=""><a href="" data-toggle="modal" data-target="#modal{{coupon.id}}">
+              <i class="fas fa-trash-alt text-danger ml-2"></i></a>
+            </div> 
+          </td>
+        </tr>
+  
+        <div class="modal fade" id="modal{{coupon.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Coupon?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-left">
+                Are you sure to delete coupon: <b>{{coupon.code}}?</b>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="{% url 'delete_coupon' coupon.id %}"  type="button" class="btn btn-primary">Yes</a>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+        {% endfor %}
+          
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+    
+  {% endblock content %}

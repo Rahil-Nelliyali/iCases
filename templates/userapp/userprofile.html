@@ -1,0 +1,112 @@
+{% extends 'userapp/base.html' %}
+{% load static%}
+
+{% block title%}
+User Details
+{%endblock%}
+
+{% block content%}
+
+<section class="page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>User details<span>.</span></h2>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<section class="cart-total-page spad">
+    <div class="container">
+        <form action="#" class="checkout-form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Your Information</h3>
+                </div>
+                <div class="col-lg-9">
+                    <div class="text-center mx-auto mt-2" style="min-width: 22rem;">{% include 'includes/alerts.html' %}</div>
+                    <div class="row">
+                        
+                        <div class="col-lg-2">
+                            <p class="in-name">First Name</p>
+                        </div>
+                        <div class="col-lg-5 mt-4">
+                            <p>{{user.first_name}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p class="in-name">Last Name</p>
+                        </div>
+                        <div class="col-lg-10 mt-4">
+                            <p>{{user.last_name}}</p>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p class="in-name">Email Address</p>
+                        </div>
+                        <div class="col-lg-10 mt-4">
+                            <p>{{user.email}}</p>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p class="in-name">Phone</p>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="col-lg-10 mt-4">
+                                <p>{{user.phone_number}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                        <a href="{% url 'change_password' %}"><p class="in-name">Change Password?</p></a>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                        <a href="{% url 'forgot_password' %}"><p class="in-name">Forgot Password?</p></a>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-3">
+                        <a href="{% url 'editProfile' %}"><p class="in-name">Update Details</p></a>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                        <a href="{% url 'myAddress' %}"><p class="in-name">My Addresses</p></a>
+                        </div>
+                        
+                    </div>
+                    <div class="more-product">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <a href="{% url 'home' %}" class="primary-btn">Back to Home</a>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+
+{%endblock%}

@@ -1,0 +1,67 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Edit Products
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+    <a href="{% url 'admin_home'%}" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Sales Report</a>
+    <a href="{% url 'products' %}" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Products</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Categories</a>
+    <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="fa fa-keyboard me-2"></i>Users</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+      <div class="dropdown-menu bg-transparent border-0">
+          <a href="#" class="dropdown-item">Category Offers</a>
+          <a href="" class="dropdown-item">Product Offers</a>
+          <a href="" class="dropdown-item">Coupons</a>
+      </div>
+  </div>
+  
+</div>
+
+{%endblock%}
+
+{% block content%}
+
+<div class="text-center mx-auto mt-2 w-50">{% include 'includes/alerts.html' %}</div>
+
+<div class="container mt-3" style="min-height: 33rem;">
+    <h2 class="text-center text-white">Edit Variation</h2>
+    <form action="{% url 'edit_product_variation' variation.id %}" method="post">
+      {% csrf_token %}
+  
+      <div class="col form-group">
+          <label >Product</label><br>
+          {{form.product}}
+      </div>
+      <div class="col form-group">
+          <label >Variation Category</label><br>
+          {{form.variation_category}}  
+      </div>
+      <div class="col form-group">
+          <label >Value</label><br>
+          {{form.variation_value}}  
+      </div>
+      <div class="col form-group">
+          <label >Price Multiplier</label><br>
+          {{form.price_multiplier}}
+      </div>
+      <div class="col form-group">
+        <label > Is_Active</label><br>
+        {{form.is_active}}
+      </div>
+      <div class="col form-group">
+         <a href=""> <input type="submit" name="submit" id="submit" class="btn btn-warning" value="Save"/></a>
+      </div>
+    </form>
+  </div>
+  
+    
+  {% endblock content %}

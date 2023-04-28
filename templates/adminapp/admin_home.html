@@ -1,0 +1,343 @@
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Admin Panel
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+    <a href="{% url 'admin_home'%}" class="nav-item nav-link active  "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+    <a href="{% url 'sales_report' %}" class="nav-item nav-link "><i class="bi bi-archive me-2"></i>Sales Report</a>
+    <a href="{% url 'products'%}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+    <a href="{% url 'categories'%}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Categories</a>
+    <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+    <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+    <a href="{% url 'banner'%}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Banners</a>
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+      <div class="dropdown-menu bg-transparent border-0">
+        <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+        <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+          <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+      </div>
+  </div>
+</div>
+{%endblock%}
+
+{% block content%}
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2" style="color:white;">Today's Orders</p>
+                    <h6 class="mb-0" style="color:white;">{{order_count_in_day}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2" style="color:white;">This Week's Orders</p>
+                    <h6 class="mb-0" style="color:white;">{{order_count_in_week}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2" style="color:white;">This Month's Orders</p>
+                    <h6 class="mb-0" style="color:white;">{{order_count_in_month}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2" style="color:white;">Number of Users</p>
+                    <h6 class="mb-0" style="color:white;">{{number_of_users}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sale & Revenue End -->
+
+      <!-- Sales Chart Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0" style="color:white;">Order Details</h6>
+                        <a href="{% url 'orders'%}">Show All</a>
+                    </div>
+                    <canvas id="orderChart"  class="">></canvas>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0" style="color:white;">Total Payment :</span> ₹{{revenue}}</h6>
+                        <a href="{% url 'orders'%}">Show All</a>
+                    </div>
+                    <canvas id="north-america-chart"  class="mx-auto">></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sales Chart End -->
+
+<script src="{% static 'js/adminjquery-3.3.1.min.js' %}"></script>
+<!-- https://jquery.com/download/ -->
+<script src="{% static 'js/moment.min.js' %}"></script>
+<!-- https://momentjs.com/ -->
+<script src="{% static 'js/Chart.min.js' %}"></script>
+<!-- http://www.chartjs.org/docs/latest/ -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  
+  var data = {
+      labels: ["Order Confirmed", "Shipped", "Out for delivery", "Delivered", "Cancelled", "Returned" ],
+      datasets: [{
+        label: ' of Orders',
+        data: ['{{ordered}}', '{{shipped}}', '{{out_of_delivery}}', '{{delivered}}', '{{cancelled}}', '{{returned}}'],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1,
+        fill: true
+      }]
+      };
+    
+      var options = {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+          }
+        }]
+      },
+      legend: {
+        display: false
+      },
+      elements: {
+        point: {
+          radius: 0
+        }
+      }
+  
+      };
+    
+    
+  
+  
+      // Get context with jQuery - using jQuery's .get() method.
+      if ($("#orderChart").length) {
+      var barChartCanvas = $("#orderChart").get(0).getContext("2d");
+      // This will get the first returned node in the jQuery collection.
+      var barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: data,
+        options: options
+      });
+      }
+  
+</script>
+
+<script>
+  if ($("#north-america-chart").length) {
+var areaData = {
+  labels: [ "RazorPay", "Cash on delivery"],
+  datasets: [{
+      data: ['{{razorpay_orders}}','{{cash_on_delivery_count}}'],
+      backgroundColor: [
+         "#4B49AC","#FFC100", "#248AFD",
+      ],
+      borderColor: "rgba(0,0,0,0)"
+    }
+  ]
+};
+var areaOptions = {
+  responsive: true,
+  maintainAspectRatio: true,
+  segmentShowStroke: false,
+  cutoutPercentage: 78,
+  elements: {
+    arc: {
+        borderWidth: 10
+    }
+  },      
+  legend: {
+    display: false
+  },
+  tooltips: {
+    enabled: true
+  },
+  legendCallback: function(chart) { 
+    var text = [];
+    text.push('<div class="report-chart">');
+      text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[1] + '"></div><p class="mb-0">RazorPay Sales</p></div>');
+      text.push('<p class="mb-0 mr-auto ml-4">{{razorpay_orders}}</p>');
+      text.push('</div>');
+      text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[2] + '"></div><p class="mb-0">Cash On Delivery</p></div>');
+      text.push('<p class="mb-0 mr-auto ml-3">{{cash_on_delivery_count}}</p>');
+      text.push('</div>');
+    text.push('</div>');
+    return text.join("");
+  },
+}
+var northAmericaChartPlugins = {
+  beforeDraw: function(chart) {
+    var width = chart.chart.width,
+        height = chart.chart.height,
+        ctx = chart.chart.ctx;
+
+    ctx.restore();
+    var fontSize = 3.125;
+    ctx.font = "500 " + fontSize + "em sans-serif";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#13381B";
+
+    var text = "{{total_payment_count}}",
+        textX = Math.round((width - ctx.measureText(text).width) / 2),
+        textY = height / 2;
+
+    ctx.fillText(text, textX, textY);
+    ctx.save();
+  }
+}
+var northAmericaChartCanvas = $("#north-america-chart").get(0).getContext("2d");
+var northAmericaChart = new Chart(northAmericaChartCanvas, {
+  type: 'doughnut',
+  data: areaData,
+  options: areaOptions,
+  plugins: northAmericaChartPlugins
+});
+document.getElementById('north-america-legend').innerHTML = northAmericaChart.generateLegend();
+}
+</script>
+
+<script>
+  var doughnutPieData = {
+datasets: [{
+  data: ['{{blocked_user}}', '{{unblocked_user}}'],
+  backgroundColor: [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    'rgba(75, 192, 192, 0.5)',
+    'rgba(153, 102, 255, 0.5)',
+    'rgba(255, 159, 64, 0.5)'
+  ],
+  borderColor: [
+    'rgba(255,99,132,1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)'
+  ],
+}],
+
+// These labels appear in the legend and in the tooltips when hovering different arcs
+labels: [
+  'Blocked Users',
+  'Unblocked Users',
+]
+};
+var doughnutPieOptions = {
+responsive: true,
+animation: {
+  animateScale: true,
+  animateRotate: true
+}
+};
+if ($("#doughnutChart").length) {
+var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
+var doughnutChart = new Chart(doughnutChartCanvas, {
+  type: 'doughnut',
+  data: doughnutPieData,
+  options: doughnutPieOptions
+});
+}
+</script>
+
+<script>
+  var data = {
+  labels: ["{{day_5_name}}", "{{day_4_name}}", "{{day_3_name}}", "{{day_2_name}}", "{{yesterday}}","{{today}}"],
+  datasets: [{
+    label: '# Sales',
+    data: ['{{day_5}}', '{{day_4}}', '{{day_3}}', '{{day_2}}', '{{yester_day_sale}}', '{{today_sale}}'],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 206, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(255, 159, 64, 0.2)'
+    ],
+    borderColor: [
+      'rgba(255,99,132,1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1,
+    fill: false
+  }]
+};
+
+var options = {
+  scales: {
+    yAxes: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  },
+  legend: {
+    display: false
+  },
+  elements: {
+    point: {
+      radius: 0
+    }
+  }
+
+};
+
+if ($("#lineChart").length) {
+  var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
+  var lineChart = new Chart(lineChartCanvas, {
+    type: 'line',
+    data: data,
+    options: options
+  });
+}
+</script>
+
+{% endblock content %}

@@ -1,0 +1,68 @@
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Edit Category
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+    <a href="{% url 'admin_home'%}" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+    <a href="#" class="nav-item nav-link"><i class="bi bi-archive me-2"></i>Sales Report</a>
+    <a href="" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+    <a href="#" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Categories</a>
+    <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+      <div class="dropdown-menu bg-transparent border-0">
+          <a href="#" class="dropdown-item">Category Offers</a>
+          <a href="" class="dropdown-item">Product Offers</a>
+          <a href="" class="dropdown-item">Coupons</a>
+      </div>
+  </div>
+  
+</div>
+
+{%endblock%}
+
+
+{% block content%}
+
+<div class="text-center mx-auto mt-2" style="min-width: 22rem;">{% include 'includes/alerts.html' %}</div>
+
+<div class="container mt-3" style="min-height: 33rem;">
+  <h2 class="text-center text-white">Edit Category</h2>
+  <form action="{% url 'editCategory' category.slug %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="col form-group">
+        <label > Category Name</label><br>
+        {{form.category_name}}  
+    </div>
+    <div class="col form-group">
+        <label > Slug</label><br>
+        {{form.slug}}  
+    </div>
+    <div class="col-6 form-group">
+        <label > Description</label><br>
+        {{form.description}}  
+    </div>
+    <div class="col-6 form-group">
+        <label > Image</label><br>
+        {{form.cat_image}}  
+    </div>
+                     
+    <div class="col form-group">
+       <a href=""> <input type="submit" name="submit" id="submit" class="btn btn-warning" value="Save"/></a>
+    </div>
+  </form>
+</div>
+
+<script>
+    document.getElementById("id_category_name").onkeyup=function(){
+        document.getElementById("id_slug").value=document.getElementById("id_category_name").value.toLowerCase().replaceAll(" ","-");
+      }
+</script>
+  
+{% endblock content %}

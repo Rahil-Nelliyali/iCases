@@ -1,0 +1,86 @@
+{% extends 'userapp/base.html' %}
+{% load static%}
+
+{% block title%}
+Contact
+{%endblock%}
+
+{% block content%}
+
+<section class="page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>Contact<span>.</span></h2>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+ <!-- Contact Section Begin -->
+ <div class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <form action="#" class="contact-form">
+                    {% include 'includes/alerts.html' %}
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="First Name">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="Last Name">
+                        </div>
+                        <div class="col-lg-12">
+                            <input type="email" placeholder="E-mail">
+                            <input type="text" placeholder="Subject">
+                            <textarea placeholder="Message"></textarea>
+                        </div>
+                        <div class="col-lg-12 text-right">
+                            <button type="submit">Send message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+                <div class="contact-widget">
+                    <div class="cw-item">
+                        <h5>Location</h5>
+                        <ul>
+                            <li>Technopark, </li>
+                            <li>Kinfra, Calicut</li>
+                        </ul>
+                    </div>
+                    <div class="cw-item">
+                        <h5>Phone</h5>
+                        <ul>
+                            <li>+91 9745734607</li>
+                            <li>+91 9745734608</li>
+                        </ul>
+                    </div>
+                    <div class="cw-item">
+                        <h5>E-mail</h5>
+                        <ul>
+                            <li>contact@icases.com</li>
+                            <li>www.icases.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="map">
+            <div class="row">
+                <div class="col-lg-12">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125218.42897428197!2d75.74060191677701!3d11.255826514431625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65938563d4747%3A0x32150641ca32ecab!2sKozhikode%2C%20Kerala!5e0!3m2!1sen!2sin!4v1681184318470!5m2!1sen!2sin" style="border:0;"  height="560" style="border:0;" allowfullscreen=""> </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact Section End -->
+
+{%endblock%}

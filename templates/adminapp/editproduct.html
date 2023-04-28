@@ -1,0 +1,148 @@
+
+
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Edit Products
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+    <a href="{% url 'admin_home'%}" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Sales Report</a>
+    <a href="{% url 'products' %}" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Products</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Categories</a>
+    <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="fa fa-keyboard me-2"></i>Users</a>
+    <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+      <div class="dropdown-menu bg-transparent border-0">
+          <a href="#" class="dropdown-item">Category Offers</a>
+          <a href="" class="dropdown-item">Product Offers</a>
+          <a href="" class="dropdown-item">Coupons</a>
+      </div>
+  </div>
+  
+</div>
+
+{%endblock%}
+
+{% block content%}
+
+<div class="text-center mx-auto mt-2 w-50">{% include 'includes/alerts.html' %}</div>
+
+<div class="container mt-3" style="min-height: 33rem;">
+  <h2 class="text-center text-white">Edit Product</h2>
+  <form action="{% url 'editProduct' product.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="col form-group">
+        <label > Product Name</label><br>
+        {{form.product_name}}  
+    </div>
+    <div class="col form-group">
+        <label > Slug</label><br>
+        {{form.slug}}  
+    </div>
+    <div class="col-6 form-group">
+        <label > Category</label><br>
+        {{form.category}}  
+    </div>
+    <div class="col-6 form-group">
+        <label > Sub Category</label><br>
+        <select class="form-control" name="sub_category" id="id_sub_category">
+          <option value="" selected="">---------</option>
+        </select>  
+    </div>
+    <div class="col form-group">
+        <label > Description</label><br>
+        {{form.description}}  
+    </div>
+    <div class="col-3 form-group">
+        <label > Price </label><br>
+        {{form.price}} 
+    </div>
+    <div class="col-3 form-group">
+        <label > Unit </label><br>
+        {{form.unit}} 
+    </div>
+    <div class="col-3 form-group">
+      <label > Stock </label><br>
+      {{form.stock}}
+  </div>
+    <div class="col form-group">
+        <label > Image 1 </label><br>
+        {{form.image_1}}
+    </div>
+    <div class="col form-group">
+        <label > Image 2 </label><br>
+        {{form.image_2}}
+    </div>
+    <div class="col form-group">
+        <label > Image 3 </label><br>
+        {{form.image_3}}
+    </div>
+    <div class="col form-group">
+        <label > Image 4 </label><br>
+        {{form.image_4}}
+    </div>
+    <div class="col form-group">
+        <label > Is Available </label><br>
+        {{form.is_available}}
+    </div>
+    <div class="col form-group">
+        <label > Is Featured </label><br>
+        {{form.is_featured}}
+    </div>
+                     
+    <div class="col form-group">
+       <a href=""> <input type="submit" name="submit" id="submit" class="btn btn-warning" value="Save"/></a>
+    </div>
+  </form>
+</div>
+
+<script>
+    document.getElementById("id_product_name").onkeyup=function(){
+        document.getElementById("id_slug").value=document.getElementById("id_product_name").value.toLowerCase().replaceAll(" ","-");
+      }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  function getval(sel)
+  {
+    var url = '{% url 'sub_category' %}'
+    category_id = sel.value
+      data = {
+        'category_id':category_id,
+    }
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: 'json',
+        success: function(data){
+          if(data.success){
+            let option_data = '<option value="" selected="">---------</option>'
+            $.each(data.sub_categories, function(index, ele){
+              option_data += 
+                  `<option value='${ele.id}'>${ele.sub_category_name}</option>`
+            })
+            $('#id_sub_category').html(option_data)
+            
+
+            
+          }else{
+            alert('fail')
+          }
+        }
+      })
+      
+  }
+</script>
+
+  
+{% endblock content %}
+
+

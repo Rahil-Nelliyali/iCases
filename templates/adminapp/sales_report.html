@@ -1,0 +1,240 @@
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Sales Report Pdf
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link   "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="{% url 'sales_report' %}" class="nav-item nav-link active "><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <a href="{% url 'banner'%}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Banners</a>
+  <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+      <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+      <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+    </div>
+</div>
+</div>
+{%endblock%}
+
+{% block content%}
+
+<div class="container mt-3" style="min-height: 33rem; background:black; color:white;">
+    <div class="card mt-3"style="background:black; color:white;" >
+      <h1 class="card-header  text-center">Sales Report</h1>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8 text-center">
+            <h3 class="h3">By Date</h3>
+            <form action="{% url 'sales_report' %}" method="POST">
+              {% csrf_token %}
+              <div class="form">
+                <label for="" class="">Starting Date : </label>
+                <input type="date" style="color:black;" id="start_date" name="start_date" required="True" max="{{today_date}}">
+              </div>
+              <div class="form  mt-3">
+                <label for="" class="mr-2">Ending Date : </label>
+              <input type="date"  style="color:black;"  id="end_date" name="end_date" required="True" max="{{today_date}}">
+              </div>
+              <button class="btn btn-success rounded-pill px-2 mt-3  px-4 ml-5" type="submit">Filter</button>
+            </form>
+          </div>
+          <div class="col-4 d-flex flex-column">
+            <h3 class="h3">Filter By</h3>
+            <div class="dropdown mt-2">
+              <a class="btn btn-secondary btn-md dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Month
+              </a>
+  
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=1 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    January
+                </a>
+  
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=2 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    February
+                </a>
+  
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=3 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    March
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=4 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    April
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=5 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    May
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=6 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    June
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=7 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    July
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=8 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    August
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=9 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    October
+                </a>
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=2 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    Novermber
+                </a>
+  
+                <a class="dropdown-item"
+                    href=""
+                    hx-get="{% url 'sales_report_month' id=12 %}"
+                    hx-trigger="click"
+                    hx-target="#sales-report-table"
+                    hx-swap="innerHTML">
+                    December
+                </a>
+  
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="dropdown">
+                <a class="btn btn-primary btn-md dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Year
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  {% for year in years %}
+                  <a class="dropdown-item"
+                      href=""
+                      hx-get="{% url 'sales_report_year' id=year %}"
+                      hx-trigger="click"
+                      hx-target="#sales-report-table"
+                      hx-swap="innerHTML">
+                      {{year}}
+                  </a>
+                  {%endfor%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+  <div class="sales-table" style="margin:20px;">
+    {% include 'adminapp/sales_report_table.html' %}
+  </div>
+  <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  
+  
+  <!-- script for for pdf creation -->
+  <script type="text/javascript">
+    $("body").on("click", "#btnExport", function () {
+        html2canvas($('#sales_report_table')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("sales-report.pdf");
+            }
+        });
+    });
+  </script>
+  
+  <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+  
+  <script>
+    function ExportToExcel(type, fn, dl) {
+         var elt = document.getElementById('sales_report_table');
+         var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+         return dl ?
+           XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+           XLSX.writeFile(wb, fn || ('sales-reoprt.' + (type || 'xlsx')));
+      }
+  </script>
+  
+  <!-- doc -->
+  
+  <script>
+    function exportHTML(){
+       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+       var footer = "</body></html>";
+       var sourceHTML = header+document.getElementById("sales_report_table").innerHTML+footer;
+       
+       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+       var fileDownload = document.createElement("a");
+       document.body.appendChild(fileDownload);
+       fileDownload.href = source;
+       fileDownload.download = 'sales-report.doc';
+       fileDownload.click();
+       document.body.removeChild(fileDownload);
+    }
+  </script>
+  
+  
+  {% endblock content %}

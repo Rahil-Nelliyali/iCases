@@ -1,0 +1,193 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Yoga Studio Template">
+    <meta name="keywords" content="Yoga, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title%}{%endblock%}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/icases-logo.png' %}">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+
+
+    {% comment %} ajax search {% endcomment %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+        {% block css%}{%endblock%}
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}" >
+    <link rel="stylesheet" href="{% static '/css/nice-select.css' %}" >
+    <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css' %}" >
+    <link rel="stylesheet" href="{% static '/css/magnific-popup.css' %}" >
+    <link rel="stylesheet" href="{% static '/css/slicknav.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/css/stylenew.css' %}" >
+    <link rel="stylesheet" href="{% static '/css/image-zoom.css' %}" >
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"/>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/d55a485fc1.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    {% comment %} <div id="preloder">
+        <div class="loader"></div>
+    </div>
+     {% endcomment %}
+   
+    
+
+    <!-- Search model -->
+	<div class="search-model">
+		<div class="h-100 d-flex align-items-center justify-content-center">
+			<div class="search-close-switch">+</div>
+			<form class="search-model-form">
+				<input type="text" id="search-input" placeholder="Search here.....">
+			</form>
+		</div>
+	</div>
+	<!-- Search model end -->
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="inner-header">
+                <div class="logo">
+                    <a href="{% url 'home' %}"><img src="{% static 'img/logo3.jpg' %}" alt=""></a>
+                </div>
+                <div class="header-right" style="display: -webkit-box;">
+                    <form action="{% url 'search' %}" method="GET">
+                        <input style="border:none;" type="text" placeholder="Search here" name="keyword" id="keyword" required >
+                       
+                    </form>
+                    <img src="{% static 'img/icons/search.png' %}" alt="" class="search-trigger">
+                    <a href="{% url 'userDashboard' %}" style="margin-right:15px;"><img src="{% static 'img/icons/man.png' %}" alt=""></a>
+                    <a href="{% url 'wishlist' %}" style="margin-right:15px;"> <img src="{% static 'img/icons/wishlist.png' %}" alt=""></a>
+                    <a href="{% url 'cart' %}">
+                        <img src="{% static 'img/icons/bag.png' %}" alt="">
+                        <span id="count_1">{{cart_count}}</span>
+                    </a>
+                </div>
+                <div class="user-access">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'userDashboard' %}">Hello, {{ user.first_name }}</a>
+                    <a href="{% url 'userLogout' %}" onclick="return confirm('You will be logged out. Are you sure?')" class="in">Logout</a>
+                    {% else %}
+                    <a href="{% url 'register' %}">Register</a>
+                    <a href="{% url 'userLogin' %}" class="in ">Sign in</a>
+                    {% endif %}
+                </div>
+                <nav class="main-menu mobile-menu">
+                    <ul>
+                        <li><a class="" href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'shop' %}">Shop</a>
+                           
+                        </li>
+                        <li><a href="{% url 'myOrders' %}">Orders</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- Header Info Begin -->
+    <div class="header-info">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="header-item">
+                        <img src="{% static 'img/icons/delivery.png' %}" alt="">
+                        <p>Free shipping on orders over 599</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-left text-lg-center">
+                    <div class="header-item">
+                        <img src="{% static 'img/icons/voucher.png' %}" alt="">
+                        <p>20% Student Discount</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-left text-xl-right">
+                    <div class="header-item">
+                    <img src="{% static 'img/icons/sales.png' %}" alt="">
+                    <p>30% off on cases. Use code: 30OFF</p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js'%}"></script>
+    <script src="{% static 'js/jquery.slicknav.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js'%}"></script>
+    <script src="{% static 'js/mixitup.min.js'%}"></script>
+    <script src="{% static 'js/main.js'%}"></script>
+
+    <script src="{% static 'js/slick-custom.js'%}"></script>
+    <script src="{% static 'js/slick.min.js '%}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+
+    {% block content%}{%endblock%}
+    {% comment %} <footer class="footer-section spad">
+        <div class="container">
+            <div class="newslatter-form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="#">
+                            <input type="text" placeholder="Enter your email address to recieve latest offer details">
+                            <button type="submit">Subscribe </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> {% endcomment %}
+    <div class="flex-container" style="color:#262626">
+</div>
+<div class="social-links-warp">
+    <div class="container">
+        <div class="social-links">
+            <a href="" class="instagram"><i class="fa-brands fa-instagram"></i><span>instagram</span></a>
+            <a href="" class="pinterest"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
+            <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+            <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+            <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+            <a href="" class="tumblr"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+      $('#imageZoom').imageZoom();
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+  <script>
+    $( function() {
+    
+      $("#keyword").autocomplete({
+        source: "{% url 'get_product_names' %}"
+      });
+    } );
+    </script>

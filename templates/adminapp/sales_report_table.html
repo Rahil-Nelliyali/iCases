@@ -1,0 +1,61 @@
+{% load static %}
+
+{% if orders %}
+<div class="table-responsive mt-3 pt-3"  id="sales-report-table">
+  <div class="float-right mb-3 mr-3">
+    <input type="button" class="btn btn-primary mr-3" id="btnExport" value="Export To PDF" />
+    <button class="btn btn-success btn-md mr-3" onclick="ExportToExcel('xlsx')">Export To Excel</button>
+    <button class="btn btn-md btn-warning" id="btn-export" onclick="exportHTML();">Export To Doc</button>
+  </div>
+  <table class="table" id="sales_report_table" style="margin-top:20px;">
+      <thead>
+        <tr>
+          <th>
+            No.
+          </th>
+          <th>
+            Product Name
+          </th>
+          <th>
+            Item Sold
+          </th>
+          <th>
+            In Stock
+          </th>
+
+          <th>
+            Amount Received
+          </th>
+        </tr>
+      </thead>
+      
+      {% for order in orders %}
+      <tbody>
+        <tr class="table">
+          <td>
+            {{forloop.counter}}
+          </td>
+          <td>
+            {{order.user_order_page__product__product_name}}
+          </td>
+          <td>
+            {{order.dcount}}
+          </td>
+          <td>
+            {{order.user_order_page__product__stock}}  
+          </td>
+          
+          <td>
+            ₹{{order.total}}
+          </td>
+        </tr>
+      </tbody>
+      {%endfor%}
+    </table>
+</div>
+
+{% else %}
+
+<h3 class="h3 text-center text-white">No Data Available!!!</h3>
+
+{% endif %}

@@ -1,0 +1,152 @@
+
+
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Add Products
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link   "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="{% url 'sales_report' %}" class="nav-item nav-link  "><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link active"><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <a href="{% url 'banner'%}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Banners</a>
+  <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+      <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+      <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+    </div>
+</div>
+</div>
+
+{%endblock%}
+
+{% block content%}
+<div class="container-fluid mt-3" style="min-height: 33rem;">
+  <h2 class="text-center text-white">Products</h2>
+  <div class="d-flex justify-content-between">
+    <input class="form-control w-50 mx-auto mb-3" type="search" placeholder="Search" aria-label="Search" id="myInput">
+    <div class="">
+      <div class="text-center mx-auto mt-2" style="min-width: 22rem;">{% include 'includes/alerts.html' %}</div>
+
+      <a href="{% url 'product_variations' %}"><button  class="btn btn-outline-info btn-sm mt-1 mr-3"><i class="fas fa-ellipsis-v mr-2"></i>   Add Variations</button></a>
+      <a href="{% url 'addProduct' %}"><button class="btn btn-outline-success btn-sm mt-1 ml-3"><i class="fas fa-plus mr-2"></i>Add Product</button></a>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Product Name</th>
+        <th>Category</th>
+        <th>Sub Category</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Stock</th>
+        <th>is_available</th>
+        <th>is_featured</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      
+      {% for product in products %}
+
+      <tr style="height: 50px !important;" class="text-wrap">
+        <th scope="row">
+          <div class="product-img d-flex flex-column">
+          <a href="{% url 'editProduct' product.id %}" class="text-white">
+          <div class="mx-auto"><img class="mx-auto" src="{{product.image_1.url}}" style="height:10vh ; object-fit:cover " ></div>
+          <div class="mx-auto">{{product.product_name}}</div></a>
+          </div></th>
+        <td>{{product.category}}</td>
+        <td>{{product.sub_category}}</td>
+        <td>₹{{product.price}}</td>
+        <td style="max-height: 20px;">{{product.description}}</td>
+        <td>{{product.stock}}</td>
+        <td>{{product.is_available}}</td>
+        <td>{{product.is_featured}}</td>
+        <td>
+          <div class="pro-img-overlay"><a href="{% url 'editProduct' product.id  %}" ><i class="fas fa-edit text-warning"></i></a>
+          </div> 
+        </td>
+        <td>
+          <div class="pro-img-overlay">
+            <a href="" data-toggle="modal" data-target="#modal{{product.id}}">
+            <i class="fas fa-trash-alt text-danger"></i> </a>
+          </div> 
+        </td>
+      </tr>
+
+      <div class="modal fade" id="modal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete Product?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-left">
+              Are you sure to delete <b>{{product.product_name}}</b>?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <a href="{% url 'deleteProduct' product.id %}"  type="button" class="btn btn-primary">Yes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      {% endfor %}
+        
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example" class="mt-3">
+    <ul class="pagination d-flex justify-content-center">
+      {% if products.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      {% endif %}
+      <li class="page-item"><a class="page-link" href="?page={{ products.number }}">{{ products.number }}</a></li>
+      {% if products.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a></li>
+      {%endif%}
+  
+      {% if products.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+      {%endif%}
+    </ul>
+  </nav>
+
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+  
+{% endblock content %}

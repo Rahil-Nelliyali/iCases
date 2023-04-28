@@ -1,0 +1,212 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Category Offers
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link   "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="{% url 'sales_report' %}" class="nav-item nav-link  "><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link "><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="{% url 'orders'%}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+        <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+        <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'coupons'%}" class="dropdown-item">Coupons</a>
+    </div>
+</div>
+</div>
+
+
+{%endblock%}
+
+
+{% block content%}
+
+
+<div class="text-center mx-auto mt-2 w-50">{% include 'includes/alerts.html' %}</div>
+
+<div class="container mt-3" style="min-height: 33rem;">
+  <h2 class="text-center text-white">Category Offers</h2>
+  <div class="d-flex justify-content-between">
+    <input class="form-control w-50 mx-auto mb-3" type="search" placeholder="Search" aria-label="Search" id="myInput">
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Category Name</th>
+        <th>Modified at</th>
+        <th>Offer %</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      
+      {% for category in categories %}
+
+      <tr style="height: 50px !important;" class="text-wrap">
+        <th scope="row">{{category.category_name}}</th>
+        <td>{{category.modified_at}}</td>
+        <td>
+          {% if category.category_offer > 0 %}
+          {{category.category_offer}}%
+          {% else %}
+          No Offer
+          {% endif %}
+        </td>
+        <td>
+          {% if category.category_offer > 0 %}
+            <button class="btn btn-sm btn-warning"  data-toggle="modal" data-target="#editOffer{{category.id}}" >Edit</button>
+                      
+            <button class="btn btn-sm btn-danger ml-3"  data-toggle="modal" data-target="#deleteOffer{{category.id}}" >Delete</button>
+          {% else %}
+          <button class="btn btn-primary btn-sm px-4"  data-toggle="modal" data-target="#addOffer{{category.id}}" > Add   </button>
+          {% endif %}
+        </td>
+      </tr>
+
+      <!-- Modal for Add offer -->
+      <div class="modal fade" id="addOffer{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalCenterTitle">Add Category Offer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+      
+      
+      
+                <form action="{% url 'add_category_offer' %}" class="forms-sample" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleInputUsername1" class="text-dark">Category  Name</label>
+                    <input type="text" class="form-control" id="exampleInputUsername1" name="category_name" value="{{category.category_name}}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputUsername1" class="text-dark">Offer In % :</label>
+                    <input type="number" class="form-control w-25" id="exampleInputUsername1" name="category_offer" value="{{category.category_offer}}" min="0" max="70" required="True">
+                  </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+              </div>       
+            </div>
+        </div>
+      </div>
+
+            <!-- Modal for Edit offer -->
+      <div class="modal fade" id="editOffer{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalCenterTitle">Edit Category Offer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+      
+      
+      
+                <form action="{% url 'add_category_offer' %}" class="forms-sample" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleInputUsername1" class="text-dark">Category  Name</label>
+                    <input type="text" class="form-control" id="exampleInputUsername1" name="category_name" value="{{category.category_name}}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputUsername1" class="text-dark">Offer In % :</label>
+                    <input type="number" class="form-control w-25" id="exampleInputUsername1" name="category_offer" value="{{category.category_offer}}" min="0" max="70" required="True">
+                  </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+              </div>       
+            </div>
+        </div>
+      </div>
+
+      <!-- Modal for Delete offer -->
+      <div class="modal fade" id="deleteOffer{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalCenterTitle">Delete Category Offer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure to detete offer for <b>{{category.category_name}}</b>               
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="{% url 'delete_category_offer' category.id %}">
+                  <button type="submit" class="btn btn-primary">Yes</button>
+                </a>
+              </div>       
+            </div>
+        </div>
+      </div>
+
+      {% endfor %}
+        
+    </tbody>
+  </table>
+</div>
+
+<nav aria-label="Page navigation example" class="mt-3">
+  <ul class="pagination d-flex justify-content-center">
+    {% if categories.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ categories.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {% endif %}
+    <li class="page-item"><a class="page-link" href="?page={{ categories.number }}">{{ categories.number }}</a></li>
+    {% if categories.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ categories.next_page_number }}">{{ categories.next_page_number }}</a></li>
+    {%endif%}
+
+    {% if categories.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ categories.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {%endif%}
+  </ul>
+</nav>
+
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+  
+{% endblock content %}

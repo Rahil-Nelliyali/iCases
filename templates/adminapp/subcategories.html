@@ -1,0 +1,88 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% extends 'adminapp/adminbase.html' %}
+{% load static%}
+
+{% block title%}
+Sub Category
+{%endblock%}
+
+{% block navbar%}
+<div class="navbar-nav w-100">
+  <a href="{% url 'admin_home'%}" class="nav-item nav-link  "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+  <a href="" class="nav-item nav-link"><i class="bi bi-archive me-2"></i>Sales Report</a>
+  <a href="{% url 'products'%}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+  <a href="{% url 'categories'%}" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Categories</a>
+  <a href="{% url 'user_manage'%}" class="nav-item nav-link  "><i class="bi bi-person me-2"></i>Users</a>
+  <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Orders</a>
+  <a href="{% url 'banner'%}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Banners</a>
+  <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Offers</a>
+    <div class="dropdown-menu bg-transparent border-0">
+      <a href="{% url 'category_offers' %}" class="dropdown-item">Category Offers</a>
+      <a href="{% url 'product_offers' %}" class="dropdown-item">Product Offers</a>
+        <a href="{% url 'user_manage'%}" class="dropdown-item">Coupons</a>
+    </div>
+</div>
+
+</div>
+
+{%endblock%}
+
+
+{% block content%}
+<div class="text-center mx-auto mt-2"  style="min-width: 22rem;">{% include 'includes/alerts.html' %}</div>
+
+<div class="container mt-3" style="min-height: 33rem;">
+    <h2 class="text-center text-white">Sub Categories</h2>
+    <div class="d-flex justify-content-between">
+      <input class="form-control w-50 mx-auto mb-3" type="search" placeholder="Search" aria-label="Search" id="myInput">
+      <div><a href="{% url 'addSubCategory' category_slug %}"><button class="btn btn-warning btn-sm mt-1"><i class="fas fa-plus mr-2"></i>Add Sub Category</button></a></div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Sub Category Name</th>
+          <th>Description</th>
+          <th>Is_featured</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        
+        {% for subCategory in subCategories %}
+  
+        <tr style="height: 50px !important;" class="text-wrap">
+          <th scope="row">{{subCategory.sub_category_name}}</th>
+          <td>{{subCategory.description}}</td>
+          <td>{{subCategory.is_featured}}</td>
+          <td>
+            <div class="pro-img-overlay"><a href="{% url 'editSubCategory' subCategory.slug %}" ><i class="fas fa-edit text-warning"></i></a>
+            </div> 
+          </td>
+          <td>
+            <div class="pro-img-overlay"><a href="{% url 'deleteSubCategory' subCategory.slug %}" onclick="return confirm('Are you sure to delete {{subCategory.sub_category_name}}?')">
+              <i class="fas fa-trash-alt text-danger"></i></a>
+            </div>
+          </td>
+        </tr>
+          
+        {% endfor %}
+          
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+    
+  {% endblock content %}
