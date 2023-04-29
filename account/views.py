@@ -38,8 +38,14 @@ from carts.models import Cart, CartItem
 from orders.models import Order, OrderProduct, Address
 from .models import Account as User
 
-from shop.models import Product
 
+from account.models import Account as User
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.views.decorators.cache import never_cache
+import pyotp
+import random
 
 
 #user registration
@@ -63,8 +69,16 @@ def register(request):
         messages.success(request, 'Phone verified')
         return redirect('login')
       else:
-        send_otp(request, phone_number)
-        request.session['phone_number'] = phone_number
+        totp = pyotp.TOTP(settings.OTP_SECRET)
+        otp = totp.now()
+        msg_html = render_to_string(
+            'userapp/email.html', {'otp': otp})
+
+        send_mail(f'Please verify your E-mail', f'Your One-Time Verification Password is {otp}', settings.EMAIL_HOST_USER, [
+            email], html_message=msg_html, fail_silently=False)
+
+        request.session['otp'] = otp
+        request.session['email'] = email
         return redirect('verify-otp')
   else:    
     form = RegistrationForm()
@@ -75,37 +89,40 @@ def register(request):
   return render (request, 'userapp/usersignup.html', context)
 
 
-def send_otp(request, phone_number):
+# def send_otp(request, phone_number):
 
 
-    TWILIO_AUTH_TOKEN = '8457debf79e3cc663946ab44bf0e1b20'
-    TWILIO_ACCOUNT_SID = 'ACc4d659a3c458fa783e6f63f20e3f6dff'
-    TWILIO_PHONE_NUMBER = '+15074488476'
-    otp = random.randint(1000, 9999)
-    request.session['otp'] = otp
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    message = client.messages.create(
-        body=f"Your OTP is {otp}",
-        from_=TWILIO_PHONE_NUMBER,
-        to=('+91{}'.format(phone_number))
-    )
-    print(message)
+#     TWILIO_AUTH_TOKEN = '8457debf79e3cc663946ab44bf0e1b20'
+#     TWILIO_ACCOUNT_SID = 'ACc4d659a3c458fa783e6f63f20e3f6dff'
+#     TWILIO_PHONE_NUMBER = '+15074488476'
+#     otp = random.randint(1000, 9999)
+#     request.session['otp'] = otp
+#     client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+#     message = client.messages.create(
+#         body=f"Your OTP is {otp}",
+#         from_=TWILIO_PHONE_NUMBER,
+#         to=('+91{}'.format(phone_number))
+#     )
+#     print(message)
 
 
 def resend_otp(request, phone_number):
-    TWILIO_AUTH_TOKEN = '8457debf79e3cc663946ab44bf0e1b20'
-    TWILIO_ACCOUNT_SID = 'ACc4d659a3c458fa783e6f63f20e3f6dff'
-    TWILIO_PHONE_NUMBER = '+15074488476'
-    phone_number = request.session['phone_number']
-    otp = random.randint(1000, 9999)
-    request.session['otp'] = otp
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    message = client.messages.create(
-        body=f"Your OTP is {otp}",
-        from_=TWILIO_PHONE_NUMBER,
-        to=('+91{}'.format(phone_number))
-    )
-    return redirect('verify-otp')
+    email = request.POST['email']
+      
+  
+    if User.objects.filter(email=email).exists():
+        
+        totp = pyotp.TOTP(settings.OTP_SECRET)
+        otp = totp.now()
+        msg_html = render_to_string(
+            'userapp/email.html', {'otp': otp})
+
+        send_mail(f'Please verify your E-mail', f'Your One-Time Verification Password is {otp}', settings.EMAIL_HOST_USER, [
+            email], html_message=msg_html, fail_silently=False)
+
+        request.session['otp'] = otp
+        request.session['email'] = email
+        return redirect('verify-otp')
 
 @never_cache
 def verify_otp(request):
@@ -113,31 +130,30 @@ def verify_otp(request):
         return redirect('home')
 
     # if request.user.is_authenticated:
-    #     return redirect('profile')
+    #     return redirect('userDashboard')
 
     error = ''
     if request.method == 'POST':
         otp = request.session['otp']
-        print(f'otp is{otp}')
         user_otp = request.POST['user_otp']
 
         if user_otp != '':
-            phone_number = request.session['phone_number']
+            email = request.session['email']
 
             if 'otp' in request.session and int(user_otp) == int(request.session['otp']):
-                print(f'user otp is{user_otp}')
 
-                user = User.objects.get(phone_number=phone_number)
+                user = User.objects.get(email=email)
                 user.is_active = True
                 user.save()
                 del request.session['otp']
-                del request.session['phone_number']
+                del request.session['email']
                 messages.success(
                     request, 'Phone verified, please login to continue')
                 return redirect('userLogin')
             else:
-                return render(request, 'userapp/otpverification.html', {'error': 'Invalid OTP'})
+               return render(request, 'userapp/otpverification.html', {'error': 'Invalid OTP'})
     return render(request, 'userapp/otpverification.html', {'error': error})
+
 
 
 @never_cache
@@ -215,9 +231,9 @@ def otpVerification(request):
       messages.error(request, 'Please type in your OTP!!!')
       return redirect('otpVerification')
     
-    check = verify_otp(phone_number, check_otp)
+    # check = verify_otp(phone_number, check_otp)
     
-    if check:
+    # if check:
       if user.is_active:
         auth.login(request, user)
         request.session['email'] = user.email

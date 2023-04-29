@@ -10,7 +10,7 @@ urlpatterns = [
   path('userDashboard/', views.userDashboard, name='userDashboard'),
   path('editProfile/', views.editProfile, name='editProfile'),
   path('otpLogin/', views.otpLogin, name='otpLogin'),
-  path('verify_otp/', views.verify_otp, name='verify-otp'),
+  path('verify-otp/', views.verify_otp, name='verify-otp'),
 
 
   path('myOrders/', views.myOrders, name='myOrders'),
