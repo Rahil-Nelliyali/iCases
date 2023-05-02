@@ -60,8 +60,8 @@
 
     <!-- Header Section Begin -->
     <header class="header-section">
-        <div class="container-fluid">
-            <div class="inner-header">
+        <div class="container-fluid justify-content-around">
+            <div class="inner-header justify-content-around">
                 <div class="logo">
                     <a href="{% url 'home' %}"><img src="{% static 'img/logo3.jpg' %}" alt=""></a>
                 </div>
@@ -79,24 +79,19 @@
                     </a>
                 </div>
                 <div class="user-access">
+                    <a style="margin-right:20px;"class="" href="{% url 'home' %}">Home</a>
+                    <a style="margin-right:20px;" href="{% url 'shop' %}">Shop</a>
+                    <a style="margin-right:20px;" href="{% url 'myOrders' %}">Orders</a>
+                    <a style="margin-right:20px;" href="{% url 'contact' %}">Contact</a>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'userDashboard' %}">Hello, {{ user.first_name }}</a>
+                    <a style="margin-left:40px;" href="{% url 'userDashboard' %}">Hello, {{ user.first_name }}</a>
                     <a href="{% url 'userLogout' %}" onclick="return confirm('You will be logged out. Are you sure?')" class="in">Logout</a>
                     {% else %}
-                    <a href="{% url 'register' %}">Register</a>
+                    <a style="margin-left:40px;" href="{% url 'register' %}">Register</a>
                     <a href="{% url 'userLogin' %}" class="in ">Sign in</a>
                     {% endif %}
                 </div>
-                <nav class="main-menu mobile-menu">
-                    <ul>
-                        <li><a class="" href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'shop' %}">Shop</a>
-                           
-                        </li>
-                        <li><a href="{% url 'myOrders' %}">Orders</a></li>
-                        <li><a href="{% url 'contact' %}">Contact</a></li>
-                    </ul>
-                </nav>
+                
             </div>
         </div>
     </header>

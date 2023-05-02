@@ -5,7 +5,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	max-width: 500px; /* Set maximum width for form */
+  margin: 0 auto; 
+	
 }
 
 
@@ -20,7 +22,9 @@
 	background-color: #171717;
 	border-radius: 25px;
 	transition: .4s ease-in-out;
-	height: 100vh;
+	max-width: 500px; /* Set maximum width for form */
+  margin: 0 auto; 
+	
   }
   
   .form:hover {
@@ -142,3 +146,19 @@
 		height: auto; /* Reset height to auto */
 	}
 }
+
+@media only screen and (max-width: 428px) { /* iPhone 12 Pro Max viewport width is 428px */
+	.form {
+	  max-width: 100%; /* Set maximum width to 100% for mobile devices */
+	  padding: 0 10px; /* Add padding to the sides of the form */
+	  box-sizing: border-box; /* Include padding in element's total width */
+	}
+  }
+
+  @media only screen and (max-width: 428px) { /* iPhone 12 Pro Max viewport width is 428px */
+	.container {
+	  max-width: 100%; /* Set maximum width to 100% for mobile devices */
+	  padding: 0 10px; /* Add padding to the sides of the form */
+	  box-sizing: border-box; /* Include padding in element's total width */
+	}
+  }
