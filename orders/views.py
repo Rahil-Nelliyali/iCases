@@ -10,6 +10,9 @@ import razorpay
 import pytz
 from datetime import datetime
 
+from decimal import Decimal
+from django.contrib import messages
+
 # Create your views here.
 client =razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
 
@@ -244,14 +247,52 @@ def cancel_order(request,id):
       order = Order.objects.get(order_number = id)
     else:
       order = Order.objects.get(order_number = id,user = request.user)
-    order.status = "Cancelled"
-    order.save()
+
     payment = Payment.objects.get(order_id = order.order_number)
-    payment.delete()
+
+    if payment.payment_method=="Cash On Delivery":
+      order.status = "Cancelled"
+      order.save()
+      payment.status = "Cancelled"
+      payment.save()
+    else:
+       # Initialize the Razorpay client with your API keys
+            # client =razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
+
+            # Retrieve the payment ID and amount from your Django order object
+            payment_id = order.payment.payment_id
+            # amount in paise (e.g. Rs. 10.00 = 1000 paise)
+            amount = Decimal(order.payment.amount_paid)*100
+
+            # Check if the payment has been captured and is refundable
+            payment = client.payment.fetch(payment_id)
+            if payment['status'] != 'captured':
+                messages.error(request, 'Payment cannot be refunded')
+
+            else:
+
+                # Create a refund object using the Razorpay API
+                refund_data = {
+                    'payment_id': payment_id,
+                    'amount': str(amount),
+                    'notes': {'reason': 'User cancelled order'}
+                }
+                refund = client.refund.create(data=refund_data)
+
+                # Update the status of the order in your Django application
+                order.status = 'Cancelled'
+                order.save()
+               
+                # Monitor the status of the refund using the Razorpay API
+                refund = client.refund.fetch(refund['id'])
+
+               
+
     if request.user.is_superadmin:
       return redirect('orders')
     else:
       return redirect('orderDetails', id)
+    
 def return_order(request, id):
   if request.method == 'POST':
     return_reason = request.POST['return_reason']
@@ -262,8 +303,42 @@ def return_order(request, id):
   order.return_reason = return_reason
   order.save()
   payment = Payment.objects.get(order_id = order.order_number)
-  payment.delete()
+  if payment.payment_method=="Cash On Delivery":
+      payment.status = "Cancelled"
+      payment.save()
+      
+  
+  else:
+     # Retrieve the payment ID and amount from your Django order object
+            payment_id = order.payment.payment_id
+            # amount in paise (e.g. Rs. 10.00 = 1000 paise)
+            amount = Decimal(order.payment.amount_paid)*100
+
+            # Check if the payment has been captured and is refundable
+            payment = client.payment.fetch(payment_id)
+            if payment['status'] != 'captured':
+                messages.error(request, 'Payment cannot be refunded')
+
+            else:
+
+                # Create a refund object using the Razorpay API
+                refund_data = {
+                    'payment_id': payment_id,
+                    'amount': str(amount),
+                    'notes': {'reason': 'User cancelled order'}
+                }
+                refund = client.refund.create(data=refund_data)
+
+                # Update the status of the order in your Django application
+                order.status = 'Cancelled'
+                order.save()
+               
+                refund = client.refund.fetch(refund['id'])
   return redirect('orderDetails', id)
+            
+     
+  
+  
 
 def razorpay(request):
   
@@ -316,3 +391,5 @@ def coupon(request):
                 }
 
   return JsonResponse(response)
+
+

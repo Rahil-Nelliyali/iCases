@@ -66,6 +66,8 @@ class Variation(models.Model):
     return self.variation_value
   
 
+  
+
 
 
 
