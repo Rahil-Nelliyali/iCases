@@ -112,7 +112,7 @@ Shop
 
                         
                         {% if  product.variation_set.sizes and product.stock > 0  %}
-                        <a href="{% url 'add_cart' product.id %}" type="submit" style="background:#B0C2B0; "  class="primary-btn pc-btn">Add to cart</a>
+                        <button href="{% url 'add_cart' product.id %}" type="submit" style="background:#B0C2B0; "  class="primary-btn pc-btn">Add to cart</button>
                     </form>
                          <a href="{% url 'add_wishlist' product.id %}" style="background:#C62929; color:white; margin-left:30px;"  class="primary-btn pc-btn ">Add to Wishlist</a> 
                         {% comment %} <a href="{% url 'add_wishlist' product.id %}" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"> {% endcomment %}
