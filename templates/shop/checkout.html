@@ -27,6 +27,8 @@ Checkout
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
+        {% include 'includes/alerts.html' %}
+
         <div class="checkout__form">
             <h4>Billing Details</h4>
             <form action="{% url 'place_order' %}" method="POST">
@@ -75,7 +77,7 @@ Checkout
                                 <div class="col-12  py-5">
                                     <div class="row d-flex align-content-center">
                                         <div class="col-12 d-block ml-2">
-                                            <p class="card-text mb-0 h2 text-center"><b>No addresses found in your account!</b></p>
+                                            <p class="card-text mb-0 h2 text-center"><b>No addresses found in your account! </b></p>
                                         </div>
                                         <a href="{% url 'add_address' %}" class="col-3 btn text-white mx-auto mt-3"  style="background-color: #7fad39;">Add Address</a>
                                     </div>

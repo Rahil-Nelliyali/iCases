@@ -64,7 +64,6 @@ Shop
                             <img src="{{cart_item.product.image_1.url}}" alt="">
                             <div class="p-title">
                                 <h5>{{cart_item.product.product_name}}</h5>
-                                <p>{{cart_item.product.sub_category}}</p>
                                 <p>
                                     {% if cart_item.variations.all %}
                                     {% for item in cart_item.variations.all %}
@@ -117,10 +116,7 @@ Shop
                         {% comment %} <a href=""><div class="site-btn update-btn">Clear Cart</div></a> {% endcomment %}
                     </div>
                 </div>
-                <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
-                    
-                    <a href="{% url 'shop' %}"><div class="site-btn btn-success">Continue Shopping</div></a>
-                </div>
+              
             </div>
         </div>
     </div>
@@ -148,8 +144,11 @@ Shop
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12 text-right">
+                       
+                        <div class="row justify-content-around">
+                            <div class="col-lg-12 d-flex justify-content-around">
+                                <a href="{% url 'shop' %}"><div class="site-btn btn-success">Browse more</div></a>
+
                                 <a href="{% url 'checkout' %}" class="primary-btn chechout-btn">Proceed to checkout</a>
                             </div>
                         </div>
