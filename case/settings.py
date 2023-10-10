@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-p5$^@4=3k^!dtyqmn_2e2x_1mh^(+-fh$jx492l=(w2gwp*mar'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -112,7 +112,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 import dj_database_url
 
-DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"))}
+DATABASES = {"default": dj_database_url.parse('postgres://icasesdatabase_t4mx_user:80etPXkun0UO7yn9yoktJix4krzs0roP@dpg-ckilqp4e1qns738bh440-a.oregon-postgres.render.com/icasesdatabase_t4mx')}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
