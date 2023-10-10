@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +34,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "cloudinary",
+    "cloudinary_storage",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -107,6 +110,9 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+
+DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"))}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -194,3 +200,12 @@ RAZORPAY_KEY = config('RAZORPAY_KEY')
 TIME_ZONE = 'Asia/Kolkata'
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": "dttm3xepj",
+    "API_KEY": "369189231799235",
+    "API_SECRET": "2Qh9RW_mhJcpMtAznl3C2VghVa4",
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
