@@ -71,10 +71,8 @@
                        
                     </form>
                     <img src="{% static 'img/icons/search.png' %}" alt="" class="search-trigger">
-                    <a href="{% url 'userDashboard' %}" style="margin-right:15px;"><img src="{% static 'img/icons/man.png' %}" alt=""></a>
-                    <a href="{% url 'wishlist' %}" style="margin-right:15px;"> <img src="{% static 'img/icons/wishlist.png' %}" alt=""></a>
-                    <a href="{% url 'cart' %}">
-                        <img src="{% static 'img/icons/bag.png' %}" alt="">
+                    <a href="{% url 'wishlist' %}" style="margin-right:15px;text-decoration: none;">❤️</a>
+                    <a href="{% url 'cart' %}" style="margin-right:15px;text-decoration: none;">🛒
                         <span id="count_1">{{cart_count}}</span>
                     </a>
                 </div>
