@@ -184,16 +184,12 @@ EMAIL_HOST_PASSWORD='dlgfcgfopuzoxjtq'
 #twilio configuration
 
 OTP_SECRET = ''
-TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
-COUNTRY_CODE = config('COUNTRY_CODE')
-TWILIO_PHONE_NUMBER = config('TWILIO_PHONE_NUMBER')
 
 
 #razorpay data
 
-RAZORPAY_ID = config('RAZORPAY_ID')
-RAZORPAY_KEY = config('RAZORPAY_KEY')
+RAZORPAY_ID ='rzp_test_MyUPl1d4rN8A0l'
+RAZORPAY_KEY = 'TrOdcRuP743CObUtnfjJ1XdM'
 
 TIME_ZONE = 'Asia/Kolkata'
 
