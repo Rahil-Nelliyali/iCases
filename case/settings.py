@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'wishlist',
-     'storages',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -198,7 +198,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
 
 
-AWS_S3_FILE_OVERWRITE = False
+
 
 AWS_ACCESS_KEY_ID = "AKIAV4LDG757ANOMKDGP"
 AWS_SECRET_ACCESS_KEY = "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"
@@ -206,3 +206,4 @@ AWS_STORAGE_BUCKET_NAME = "icasebucket"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_FILE_OVERWRITE = False
