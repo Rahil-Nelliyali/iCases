@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'crispy_forms',
+    'storages',
     'shop',
     'adminapp',
     'account',
@@ -62,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'case.urls'
@@ -195,11 +198,13 @@ TIME_ZONE = 'Asia/Kolkata'
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": "dttm3xepj",
-    "API_KEY": "369189231799235",
-    "API_SECRET": "2Qh9RW_mhJcpMtAznl3C2VghVa4",
-}
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
+AWS_S3_FILE_OVERWRITE = False
+
+AWS_ACCESS_KEY_ID = "AKIAV4LDG757ANOMKDGP"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "icasebucket"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
