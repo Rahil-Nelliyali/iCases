@@ -744,51 +744,66 @@ def delete_product_offer(request, id):
 
 #banner
 
-@staff_member_required(login_url= 'admin_login') 
+@staff_member_required(login_url='admin_login') 
 def banner(request):
-    bannr = Banner.objects.all()
-    return render(request,'adminapp/banner.html',{'bannr':bannr})
+    try:
+        bannr = Banner.objects.all()
+        return render(request, 'adminapp/banner.html', {'bannr': bannr})
+    except Exception as e:
+        # Log the error or handle it appropriately
+        print(f"Error in banner view: {e}")
+        return HttpResponse(status=500)  # Internal Server Error
 
-
-@staff_member_required(login_url= 'admin_login') 
+@staff_member_required(login_url='admin_login') 
 def add_banner(request):
-    if request.method == "POST":
-        banr=Banner()
-        if len(request.FILES) != 0:
-            print('IMAGE UPLOADED')
-            banr.banner_image = request.FILES.get('image')
-            banr.save()
-            return redirect('banner')
-    else:
-        
-        return render(request,'adminapp/addbanner.html')
+    try:
+        if request.method == "POST":
+            banr = Banner()
+            if 'image' in request.FILES:
+                print('IMAGE UPLOADED')
+                banr.banner_image = request.FILES['image']
+                banr.save()
+                return redirect('banner')
+    except Exception as e:
+        # Log the error or handle it appropriately
+        print(f"Error in add_banner view: {e}")
+        return HttpResponse(status=500)  # Internal Server Error
+    
+    return render(request, 'adminapp/addbanner.html')
 
+@staff_member_required(login_url='admin_login') 
+def select_banner(request, id):
+    try:
+        bannr = Banner.objects.all()
+        bannr.update(is_selected=False)
+        banners = Banner.objects.filter(id=id)
+        banners.update(is_selected=True)
+        return redirect('banner')
+    except Exception as e:
+        # Log the error or handle it appropriately
+        print(f"Error in select_banner view: {e}")
+        return HttpResponse(status=500)  # Internal Server Error
 
+@staff_member_required(login_url='admin_login') 
+def deselect_banner(request, id):
+    try:
+        bannr = Banner.objects.all()
+        bannr.update(is_selected=True)
+        banners = Banner.objects.filter(id=id)
+        banners.update(is_selected=False)
+        return redirect('banner')
+    except Exception as e:
+        # Log the error or handle it appropriately
+        print(f"Error in deselect_banner view: {e}")
+        return HttpResponse(status=500)  # Internal Server Error
 
-
-@staff_member_required(login_url= 'admin_login') 
-def select_banner(request,id):
-    bannr = Banner.objects.all()
-    bannr.update(is_selected = False )
-    banners = Banner.objects.filter(id = id)
-    banners.update(is_selected = True)
-    return redirect('banner')
-
-
-
-def deselect_banner(request,id):
-    bannr = Banner.objects.all()
-    bannr.update(is_selected = True )
-    banners = Banner.objects.filter(id = id)
-    banners.update(is_selected = False)
-    return redirect('banner')
-
-
-
-
-@staff_member_required(login_url= 'admin_login') 
-def remove_banner(request , id):
-    bannr = Banner.objects.filter(id= id)
-    bannr.delete()
-    return redirect(banner)
-
+@staff_member_required(login_url='admin_login') 
+def remove_banner(request, id):
+    try:
+        bannr = Banner.objects.filter(id=id)
+        bannr.delete()
+        return redirect('banner')
+    except Exception as e:
+        # Log the error or handle it appropriately
+        print(f"Error in remove_banner view: {e}")
+        return HttpResponse(status=500)  # Internal Server Error
