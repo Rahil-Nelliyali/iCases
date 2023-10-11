@@ -200,8 +200,6 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
 
 
-AWS_ACCESS_KEY_ID = "AKIAV4LDG757PMC47QPE"
-AWS_SECRET_ACCESS_KEY = "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"
 AWS_STORAGE_BUCKET_NAME = "icasebucket"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
