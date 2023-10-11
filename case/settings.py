@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-p5$^@4=3k^!dtyqmn_2e2x_1mh^(+-fh$jx492l=(w2gwp*mar'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -189,8 +189,8 @@ OTP_SECRET = ''
 
 #razorpay data
 
-RAZORPAY_ID ='rzp_test_MyUPl1d4rN8A0l'
-RAZORPAY_KEY = 'TrOdcRuP743CObUtnfjJ1XdM'
+RAZORPAY_ID ='rzp_test_t7mDyb37sLmED8'
+RAZORPAY_KEY = '4YMuQlfTvyvuyHgdtpyoxkDW'
 
 TIME_ZONE = 'Asia/Kolkata'
 
