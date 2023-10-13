@@ -63,7 +63,10 @@
         <div class="container-fluid justify-content-around">
             <div class="inner-header justify-content-around">
                 <div class="logo">
-                    <a href="{% url 'home' %}">iCases</a>
+                    <a href="{% url 'home' %}" style="text-decoration: none; color: #333; font-weight: bold; font-size: 25px;">
+                        iCases
+                    </a>
+                    
                 </div>
                 <div class="header-right" style="display: -webkit-box;">
                     <form action="{% url 'search' %}" method="GET">
